@@ -1,4 +1,4 @@
-## Send email functionality for Exchange in Golang
+## Golang wrapper for send email functionality with Exchange server via EWS
 
 ### Credits: [andlabs](https://github.com/andlabs/ews)
 
