@@ -15,7 +15,7 @@ import (
 	"io/ioutil"
 	"log"
 
-	"github.com/arawal/ews/ews"
+	"github.com/arawal/ews"
 )
 
 func main() {
