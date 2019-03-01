@@ -155,7 +155,11 @@ func CreateItemXML(metadata EmailMetadata) CreateItem {
 	m := new(Message)
 	m.ItemClass = "IPM.Note"
 	m.Subject = metadata.Subject
-	m.Body.BodyType = "Text"
+
+	m.Body.BodyType = metadata.Type
+	if metadata.Type != "HTML" || metadata.Type != "HTML" {
+		m.Body.BodyType = "Text"
+	}
 	m.Body.Body = []byte(metadata.Body)
 
 	// adding a sender requires "SendAs" on the account sending the message, even if it sending email from itself
