@@ -1,32 +1,54 @@
-very dumb, hacky, possibly flaky package to send emails from an Exchange server via EWS (in the event yours doesn't expose a SMTP server)
+## Send email functionality for Exchange in Golang
 
-usage:
+### Credits: [andlabs](https://github.com/andlabs/ews)
 
-	b, err := ews.BuildTextEmail(
-		"me@server.com",
-		[]string{"friend@example.com", "someone@else.com"},
-		"An email subject",
-		[]byte("The email body, as plain text"))
+`Note: Currently only a single attachment is supported`
+
+### Example usage
+
+```
+package main
+
+import (
+	"encoding/base64"
+	"fmt"
+	"io/ioutil"
+	"log"
+
+	"github.com/arawal/ews/ews"
+)
+
+func main() {
+	fileData, err := ioutil.ReadFile("sample.txt")
+	fileEncoding := base64.StdEncoding.EncodeToString(fileData)
+
+	var amd ews.AttachmentMetadata
+	amd.Name = "some.txt"
+	amd.Content = fileEncoding
+
+	var email ews.EmailMetadata
+	email.To = []string{"1@some.org", "2@some.org"}
+	email.Subject = "sample"
+	email.Body = "sample email body"
+	email.Cc = []string{"3@some.org", "4@some.org"}
+	email.Bcc = []string{"5@some.org", "6@some.org"}
+	email.ReplyTo = "7@some.org"
+
+	var creds ews.Credentials
+	creds.Server = "https://outlook.office365.com/EWS/exchange.asmx"
+	creds.Username = "yourusername"
+	creds.Password = "yourpassword"
+
+	resp, err := ews.SendEmailWithAttachment(creds, email, amd)
+	fmt.Println(resp, err)
+	return
+
+	fileData, err = ioutil.ReadFile("sample.txt")
 	if err != nil {
-		// handle err
+		log.Fatal(err)
 	}
-	resp, err := ews.Issue(
-		"https://exhange.server.com/ews/Exchange.asmx",
-		"domain\\username",
-		"password",
-		b)
-	if err != nil {
-		// handle err
-	}
-	if resp.StatusCode != 200 {
-		// read body and figure out what happened
-	}
-	// read or ignore body; the email was sent
 
-the other exported types are just the raw data structures for the request XML; you can ignore them
-
-I'm not sure if I'll develop this further; feel free to (warning: here be SOAP)
-some resources I used are in comments in the code
-
-TODOs
-- figure out why UTF-8 isn't used for email bodies, or how to force the encoding
+	fileEncoding = base64.StdEncoding.EncodeToString(fileData)
+	fmt.Printf("File contents: %s", fileEncoding)
+}
+```
