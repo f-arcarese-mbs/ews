@@ -80,6 +80,7 @@ var soapheader = `<?xml version="1.0" encoding="utf-8" ?>
 `
 
 func SendEmailWithAttachment(creds Credentials, emailMetadata EmailMetadata, attachmentMetadata AttachmentMetadata) (string, error) {
+	fmt.Println("AAAAAAAAAAAAAAAAOOOOOOOOOOOOO&&&&&&&&&&&")
 	emailMetadata.Action = "SaveOnly"
 	emailMetadata.Folder = "sentitems"
 
@@ -98,6 +99,7 @@ func SendEmailWithAttachment(creds Credentials, emailMetadata EmailMetadata, att
 }
 
 func SendEmail(creds Credentials, metadata EmailMetadata) (string, error) {
+	fmt.Println("AAAAAAAAAAAAAAAAOOOOOOOOOOOOO")
 	metadata.Action = "SendAndSaveCopy"
 	if metadata.Folder == "" {
 		metadata.Folder = "sentitems"
