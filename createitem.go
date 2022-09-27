@@ -138,7 +138,7 @@ func BuildSendSavedEmail(emailId, changeKey string) ([]byte, error) {
 
 	senditem.ItemIds = ItemIDs{
 		ItemID: []ItemID{
-			ItemID{
+			{
 				ID:        emailId,
 				ChangeKey: changeKey,
 			},
@@ -157,7 +157,7 @@ func CreateItemXML(metadata EmailMetadata) CreateItem {
 	m.Subject = metadata.Subject
 
 	m.Body.BodyType = metadata.Type
-	if metadata.Type != "HTML" || metadata.Type != "HTML" {
+	if metadata.Type != "HTML" {
 		m.Body.BodyType = "Text"
 	}
 	m.Body.Body = []byte(metadata.Body)
