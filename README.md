@@ -52,3 +52,39 @@ func main() {
 	fmt.Printf("File contents: %s", fileEncoding)
 }
 ```
+
+### Features added by MBS
+
+#### OAuth2 Authentication
+
+```
+package main
+
+import (
+	"fmt"
+
+	"gitlab.mangrovia.solutions/platform2.0/ews"
+)
+
+func main() {
+
+	var email ews.EmailMetadata
+	email.To = []string{"1@some.org"}
+	email.Subject = "sample"
+	email.Body = "sample email body"
+	email.ReplyTo = "7@some.org"
+
+	var creds ews.Credentials
+	creds.Server = "https://outlook.office365.com/EWS/exchange.asmx"
+	creds.Username = "yourusername"
+	creds.ClientID = "yourclientid"
+	creds.ClientSecret = "yourclientsecret"
+	creds.Scope = "https://outlook.office365.com/.default"
+	creds.Tenant = "yourtenant"
+	creds.GrantType = "client_credentials"
+	creds.URL = "https://login.microsoftonline.com/%s/oauth2/v2.0/token"
+	resp, err := ews.SendEmail(creds, email)
+	fmt.Println(resp, err)
+}
+
+```
